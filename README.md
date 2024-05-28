@@ -1,2 +1,2 @@
-# Template_Streamlit
-Modèle de projet Streamlit
+# Streamlit VisuAzureAiid
+Outil interne de visualisation des json résultats d'un traitement AZURE AI Intelligence Documentaire
