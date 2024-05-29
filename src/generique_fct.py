@@ -66,7 +66,7 @@ def getImages2():
             listfilenames.append(key + '.rot')
         else:
             listfilenames.append(key + '.tif')
-
+    listfilenames.sort()
     return listfilenames
 
 
@@ -90,6 +90,7 @@ def getImages(source):
                 listfilenames.append(key + '.rot')
             else:
                 listfilenames.append(key + '.tif')
+        listfilenames.sort()
         return listfilenames
     else:
         return None
