@@ -1,7 +1,7 @@
 import os
 import shutil
 import streamlit as st
-from streamlit_image_zoom import image_zoom
+
 from PIL import Image
 
 from src.dataRead_fct import *
