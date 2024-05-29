@@ -23,7 +23,7 @@ st.markdown("# Visualiser les résultats Azure AI (Intelligence documentaire) ! 
                  "\n\n- charger des fichiers images (obligatoire) au fromat tif, jpg ou rot et des fichiers .json via la fenêtre d'upload"
                  "\n\n- désactiver le mode fichier unitaire pour indiquer un path vers un espace partagé contenant des fichiers images et .json"
                  "\n\n- naviguer entre les images via les boutons suivant / précédent ou selectionner directement une image dans la liste"
-                 "\n\n- définir une règle de nommage spécifique pour les fichiers json (chaine insérée entre nom_image et .json)")
+            )
 
 # Initialisation
 if "rang_courant" not in st.session_state:
