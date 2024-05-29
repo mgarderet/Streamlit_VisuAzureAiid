@@ -17,7 +17,7 @@ st.set_page_config(
     layout="wide",
 )
 
-st.markdown("# Visualiser les résultats Azure AI (Intelligence documentaire) ! 😀 #Mga 0.1",
+st.markdown("# Visualiser les résultats Azure AI (Intelligence documentaire) ! 😀 #Mga 0.3",
             help="# Documentation express"
                  "\n\nVous pouvez : "
                  "\n\n- charger des fichiers images (obligatoire) au fromat tif, jpg ou rot et des fichiers .json via la fenêtre d'upload"
