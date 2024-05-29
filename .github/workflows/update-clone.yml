@@ -23,3 +23,8 @@ jobs:
         run: |
           Write-Host "Cloning repository..."
           git clone https://github.com/mgarderet/Streamlit_VisuAzureAiid.git 'C:\Tools\tool-8528-visuAzureIA\Streamlit_VisuAzureAiid'
+
+      - name: Restart service
+        run: |
+          Write-Host "Restart service ..."
+          C:\nssm-2.24\win32\nssm.exe restart Streamlit_VisuAzureAI
