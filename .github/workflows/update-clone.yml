@@ -1,0 +1,25 @@
+name: Update Clone after Merge
+ 
+on:
+  push:
+    branches:
+      - main
+ 
+jobs:
+  update_clone:
+    runs-on: self-hosted
+    steps:
+      - name: Check if clone exists
+        run: |
+          if (Test-Path -Path 'C:\Tools\tool-8528-visuAzureIA\Streamlit_VisuAzureAiid') {
+            Write-Host "Removing existing clone..."
+            Remove-Item -Path 'C:\Tools\tool-8528-visuAzureIA\Streamlit_VisuAzureAiid' -Recurse -Force
+          }
+          else {
+            Write-Host "No existing clone found."
+          }
+ 
+      - name: Clone repository
+        run: |
+          Write-Host "Cloning repository..."
+          git clone https://github.com/mgarderet/Streamlit_VisuAzureAiid.git 'C:\Tools\tool-8528-visuAzureIA\Streamlit_VisuAzureAiid'
