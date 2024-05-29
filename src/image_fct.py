@@ -1,6 +1,8 @@
+import os.path
+
 import cv2
 import streamlit as st
-
+import numpy as np
 
 def create_opencv_image_from_stringio(img_bytes, cv2_img_flag=0):
     img_array = np.asarray(bytearray(img_bytes), dtype=np.uint8)
@@ -20,7 +22,11 @@ def createImageFromFile(path_image):
 
 
 #@st.cache_data
-def generateImage(path_image):
+def generateImage(path_image, format_image):
+    path_name, ext = os.path.splitext(path_image)
+    if not ext == format_image:
+        if os.path.isfile(path_name + format_image):
+            path_image = path_name + format_image
     image = createImageFromFile(path_image)
     if len(image.shape) == 2:
         image_decoree = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
