@@ -4,6 +4,7 @@ import streamlit as st
 from streamlit_image_zoom import image_zoom
 from PIL import Image
 
+from src.dataRead_fct import *
 from src.generique_fct import *
 from src.visualisation_IHM import *
 from src.image_fct import *
@@ -16,7 +17,7 @@ st.set_page_config(
     layout="wide",
 )
 
-st.markdown("# Description de l'outil ! 😀 #Mga0.0",
+st.markdown("# Visualiser les résultats Azure AI (Intelligence documentaire) ! 😀 #Mga 0.1",
             help="# Documentation express"
                  "\n\nVous pouvez : "
                  "\n\n- charger des fichiers images (obligatoire) au fromat tif, jpg ou rot et des fichiers .json via la fenêtre d'upload"
@@ -117,9 +118,19 @@ with main_frame :
             else :
                 select_image = st.sidebar.selectbox("Sélectionner une image", liste_image, index=0, on_change=clearRegex)
 
+            # choix du format de l'image
+            format_image = st.sidebar.select_slider(label='Format image', options=['.jpg', '.tif', '.rot'], help='[JPG, TIF, ROT]')
+
+            # Champs API AZURE IdDocument
+            liste_retour = ['DocumentNumber', 'DocumentDiscriminator', 'FirstName', 'LastName', 'Address', 'DateOfBirth', 'PlaceOfBirth', 'DateOfExpiration', 'DateOfIssue', 'Height', 'Sex']
+            liste_recto = ['DocumentNumber', 'DocumentDiscriminator', 'FirstName', 'LastName', 'DateOfBirth', 'PlaceOfBirth', 'DateOfExpiration', 'Sex']
+            liste_verso = ['Address', 'DateOfIssue', 'Height', 'DateOfExpiration']
+            st.sidebar.dataframe(liste_retour, column_config={'value' : 'Spec. API Azure'})
+            st.sidebar.dataframe(liste_recto, column_config={'value' : 'Spec. CNI recto'})
+            st.sidebar.dataframe(liste_verso, column_config={'value' : 'Spec. CNI verso'})
 
             # génération de l'image correspondant à toutes nos sélections
-            image = generateImage(select_image)
+            image = generateImage(select_image, format_image)
 
             # Transformation en image PIL
             pilimage = Image.fromarray(image)
@@ -129,11 +140,33 @@ with main_frame :
 
             # Afficher image avec fonction Zoom intégrée
             with image_frame:
-                image_zoom(image, size=1000, mode="both", zoom_factor=8.0, increment=0.5)
+                st.image(image)
+                #image_zoom(image, size=800, mode="both", zoom_factor=8.0, increment=0.5)
+
+            # Création de l'IHM d'affichage des données associées à l'image courante
+            container_meta_data = text_frame.container(border=True)
+            container_data = text_frame.container(border=True)
+            expand_texte_fulltexte = text_frame.expander(label='Fulltext')
+            container_perf = text_frame.container(border=True)
+            col1, col2, col3 = container_perf.columns(3)
+
+            # Recuperation des données de l'image
+            dico_res = DataFromImage(select_image, ext='_result')
+            fulltext, data, metadata = postTraitement(dico_res)
+
+            # Calcul des performances
 
 
-            # Affichage des données associées à l'image courante
-            expand_texte = text_frame.container(border=True)
-            expand_texte.text("Retour de la fonction de prétraitement des données")
+            # Affichage des données de l'image
+            container_meta_data.write("Meta-data")
+            container_meta_data.write(metadata)
 
+            container_data.write("Data")
+            container_data.write(data)
+
+            expand_texte_fulltexte.text(fulltext)
+
+            tx = max(len([data for data in data.keys() if data in liste_recto])/len(liste_recto), len([data for data in data.keys() if data in liste_verso])/len(liste_verso))
+            col1.metric("Tx lect", f"{tx:.0%}")
+            col2.metric("Nb data", len(data.keys()))
 
