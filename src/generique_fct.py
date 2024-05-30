@@ -41,6 +41,9 @@ def clearRegex():
     st.session_state["regex"] = False
 
 
+def clearRotate():
+    st.session_state["rotate"] = 0
+
 def batchChange(data):
     st.session_state["upload"] = 0
     clearData(data)
