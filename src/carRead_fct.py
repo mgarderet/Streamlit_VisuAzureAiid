@@ -1,7 +1,8 @@
 import os
 import unicodedata
 import streamlit as st
-#@st.cache_data
+
+
 def TexteFromImage(select_image):
     pathCar = os.path.splitext(select_image)[0] + '.car'
     if os.path.isfile(pathCar):
