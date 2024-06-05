@@ -4,19 +4,7 @@ import streamlit as st
 import json
 
 
-def TauxRecto():
-    taux = 0
-
-    return taux
-
-
-def TauxVerso():
-    taux = 0
-
-    return taux
-
-
-def DataFromImage(path_image, ext='_results') :
+def DataFromImage() :
     """Retourne les données associées à une image
 
     Args:
@@ -28,7 +16,7 @@ def DataFromImage(path_image, ext='_results') :
     """
 
     # Cas d'un fichier de donnée Azure AI ID (json)
-    imgfile = os.path.splitext(path_image)[0] + ext + '.json'
+    imgfile = os.path.splitext(st.session_state["current_image_path"])[0] + st.session_state["fdata_name"] + '.json'
     if os.path.isfile(imgfile):
         return traiteimgfile(imgfile)
     else:
@@ -60,24 +48,6 @@ def traiteimgfile(file):
                 if 'fields' in pydata['documents'][0].keys():
                     for field in pydata['documents'][0]['fields']:
                         dico['data'][field] = pydata['documents'][0]['fields'][field]['content']
-
-                # categorie = object['name']
-                #
-                # if categorie in dico.keys():
-                #     rang += 1
-                #     dico2 = dico[categorie]
-                #     dico2[categorie.lower() + '_' + str(rang)] = {}
-                # else:
-                #     dico2 = {}
-                #     dico[categorie] = dico2
-                #     dico2[categorie.lower() + '_' + str(rang)] = {}
-                #
-                # for data in object.keys():
-                #     if data in valide_dataTag:
-                #         dico[categorie][categorie.lower() + '_' + str(rang)][data] = object[data]
-        #         if data.tag in valide_boxTag:
-        #             liste_coord.append(data.text)
-        #             dico[categorie.text][categorie.text.lower() + '_' + str(rang)]['rectangle'] = tuple(liste_coord)
 
     finally:
         #print(dico)
